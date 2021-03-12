@@ -12,3 +12,7 @@ git branch -M main
 git push -u origin main
 
 # 1. How to pass [props] through <router-link>
+
+add item -- be at first
+edit item
+delete item
