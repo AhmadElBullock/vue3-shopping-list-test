@@ -5,6 +5,7 @@ import App from '../views/App/App.vue'
 import Me from '../views/App/Me.vue'
 import Wife from '../views/App/Wife.vue'
 import About from '../views/About.vue'
+import Page404 from '../views/Page404.vue'
 
 import store from '../store/index'
 
@@ -60,11 +61,11 @@ const routes = [
     path: '/all-jobs',
     redirect: 'jobs'
   }, */
-  /* {
-    path: '/:catchAll(.*)'
-    name: 'page404',
+  {
+    path: '/:catchAll(.*)',
+    name: 'Page404',
     component: Page404
-  } */
+  }
 ]
 
 const router = createRouter({

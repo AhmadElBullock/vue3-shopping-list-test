@@ -51,14 +51,9 @@
 
 <script>
 export default {
-    data() {
-      return {
-      }
-    },
     methods: {
       selectPagedData(page) {
         this.$store.commit('selectPagedData', page)
-        console.log(this.$store.state.pageActive, page)
       },
       pPage() {
         this.$store.commit('pPage')

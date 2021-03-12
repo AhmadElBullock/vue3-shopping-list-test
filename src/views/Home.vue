@@ -12,16 +12,7 @@
 <script>
 
 export default {
-  name: 'Home',
-  components: {
-  },
-  
-  mounted() {
-
-  },
-
-  methods: {
-  }
+  name: 'Home'
 }
 </script>
 
@@ -30,8 +21,8 @@ export default {
     font-size: 1.5rem;
     text-decoration: none;
     padding: 0.2rem 0.5rem 0.5rem 0.5rem;
-    background-color: #ace4da;
     border-radius: 4px;
     color: #000;
+    background-color: #ace4da;
   }
 </style>

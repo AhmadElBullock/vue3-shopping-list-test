@@ -11,7 +11,7 @@ export default createStore({
     page: 1,          //THE SINGLE PAGE
     limit: 10,        //SINGLE PAGE SIZE (LIMIT OF DATA TO DISPLAY IN A SINGLE PAGE)
 
-    pageActive: Number,   //
+    pageActive: Number,   // SELECT CURRENT ACTIVE PAGE (NUMBER)
 
     shoppingList: [],         // ALL FETCHED DATA
     pagedShoppingList: [],    // ASSIGNED (SINGLE PAGE) DATA
