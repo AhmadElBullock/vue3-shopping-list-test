@@ -6,6 +6,8 @@ export default createStore({
     isAuthed: false,
     logStatus: 'Login',
     user: '',
+    edit: false,
+    itemPageIndex: null,
 
     pages: null,    //TOTAL PAGES COUNT
     page: 1,          //THE SINGLE PAGE
@@ -72,6 +74,21 @@ export default createStore({
         state.pageActive = 1
         console.log('shoppingList.length :  ' + state.shoppingList.length, 'pages: ' + state.pages,state.shoppingList, )
       }
+    },
+    ///// SELECT EDIT ITEM /////
+    selectEditListItem(state, itemPageIndex) {
+      console.log(state.shoppingList[itemPageIndex])
+      state.itemPageIndex = itemPageIndex
+      state.edit = true
+    },
+    ///// EDIT ITEM /////
+    editListItem(state, newTitle) {
+      var itemIndex = (state.limit * state.page) - (state.limit - state.itemPageIndex) // THE ITEM POSITION (INDEX) FETCHED DATA
+      console.log(state.itemPageIndex)
+      //state.shoppingList = state.shoppingList.filter((list) => list.id != itemIndex) //HOW TO GET LIST.INDEX
+      state.shoppingList[itemIndex].title = newTitle
+      state.edit = false
+      newTitle = ''
     },
 
     ///// DELETE ITEM /////

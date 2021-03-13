@@ -26,7 +26,10 @@
 
     </div>
     <!-- ----- END: ADD A SHOPPING LIST ITEM ----- -->
-
+<div v-if="$store.state.edit">
+    <input  type="text" v-model="newTitle" />
+    <button class="btn btn-success" @click="editListItem(newTitle)">Done</button>
+</div>
       <table class="table table-striped">
 
         <thead>
@@ -46,7 +49,7 @@
             <td>{{list.userId}}</td>
             <td>{{list.title}}</td>
             <td>{{list.completed}}</td>
-            <td><button class="btn btn-info" @click="editListItem(list.id)">Edit</button></td>
+            <td><button class="btn btn-info" @click="selectEditListItem(index)">Edit</button></td>
             <td><button class="btn btn-danger" @click="deleteListItem(index)">X</button></td>
             </tr>
         </tbody>
@@ -88,6 +91,12 @@ export default {
       addListItem() {
         this.$store.commit('addListItem', this.newItem)
         this.newItem = ''
+      },
+      selectEditListItem(itemPageIndex) {
+        this.$store.commit('selectEditListItem', itemPageIndex)
+      },
+      editListItem(itemPageIndex) {
+        this.$store.commit('editListItem', itemPageIndex)
       },
       deleteListItem(itemPageIndex) {
         this.$store.commit('deleteListItem', itemPageIndex)
