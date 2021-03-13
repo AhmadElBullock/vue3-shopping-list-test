@@ -7,11 +7,11 @@ export default createStore({
     logStatus: 'Login',
     user: '',
 
-    pages: Number,    //TOTAL PAGES COUNT
+    pages: null,    //TOTAL PAGES COUNT
     page: 1,          //THE SINGLE PAGE
     limit: 10,        //SINGLE PAGE SIZE (LIMIT OF DATA TO DISPLAY IN A SINGLE PAGE)
 
-    pageActive: Number,   // SELECT CURRENT ACTIVE PAGE (NUMBER)
+    pageActive: null,   // SELECT CURRENT ACTIVE PAGINATION (NUMBER)
 
     shoppingList: [],         // ALL FETCHED DATA
     pagedShoppingList: [],    // ASSIGNED (SINGLE PAGE) DATA
@@ -51,6 +51,46 @@ export default createStore({
       state.pagedShoppingList = data.slice(0, state.limit)
       state.page = 1
       state.pageActive = 1
+    },
+
+    ///// ADD ITEM /////
+    addListItem(state, newItem) {
+      if(newItem == '') {
+        alert('Please type a shopping list in the field')
+        return
+      } else {
+      state.shoppingList.unshift(
+        {
+          'userId':1,
+          'id': 1,
+          title: newItem,
+          completed: false
+        })
+        state.pages = Math.ceil(state.shoppingList.length/state.limit)    //ROUND-UP
+        state.pagedShoppingList = state.shoppingList.slice(0, state.limit)
+        state.page = 1
+        state.pageActive = 1
+        console.log('shoppingList.length :  ' + state.shoppingList.length, 'pages: ' + state.pages,state.shoppingList, )
+      }
+    },
+
+    ///// DELETE ITEM /////
+    deleteListItem(state, itemPageIndex) {
+      var itemIndex = (state.limit * state.page) - (state.limit - itemPageIndex) // THE ITEM POSITION (INDEX) FETCHED DATA
+      console.log(itemIndex)
+      //state.shoppingList = state.shoppingList.filter((list) => list.id != itemIndex) //HOW TO GET LIST.INDEX
+      var newList = []
+      var z = 0
+      for(z = 0; z < state.shoppingList.length; z++) {
+        if(state.shoppingList[itemIndex] != state.shoppingList[z]) {
+          newList.push(state.shoppingList[z])
+        } 
+      }
+     state.shoppingList = newList
+     state.pages = Math.ceil(state.shoppingList.length/state.limit)    //ROUND-UP
+     state.pagedShoppingList = state.shoppingList.slice(0, state.limit)
+     state.page = 1
+     state.pageActive = 1  //MUST FIGURE OUT A WAY TO SHOW DATA WITHOUT REDIRECT TO FIRST PAGE
     },
 
     ///// SELECTING PAGE N. + FILLING PAGE DATA /////
