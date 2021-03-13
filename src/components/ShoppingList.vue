@@ -43,8 +43,10 @@
 
             </tr>
         </thead>
-        <tbody >
-            <tr v-for="(list, index) in this.$store.state.pagedShoppingList" :key="list.id" :class="[list.completed ? 'completed' : '']">
+        <tbody >  
+            <tr v-for="(list, index) in this.$store.state.pagedShoppingList"
+            :key="list.id"
+            :class="[list.completed ? 'completed' : '', $store.state.shoppingList[index] == $store.state.itemPageIndex ? 'edit' : '']">
             <th scope="row">{{list.id}}</th>
             <td>{{list.userId}}</td>
             <td>{{list.title}}</td>
@@ -129,5 +131,8 @@ export default {
 .completed {
   text-decoration:line-through !important;
   color: rgb(151, 151, 151) !important
+}
+.edit {
+  border-color: brown;
 }
 </style>

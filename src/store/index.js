@@ -83,9 +83,8 @@ export default createStore({
     },
     ///// EDIT ITEM /////
     editListItem(state, newTitle) {
-      var itemIndex = (state.limit * state.page) - (state.limit - state.itemPageIndex) // THE ITEM POSITION (INDEX) FETCHED DATA
+      var itemIndex = (state.limit * state.page) - (state.limit - state.itemPageIndex) // THE ITEM POSITION (INDEX) IN FETCHED DATA
       console.log(state.itemPageIndex)
-      //state.shoppingList = state.shoppingList.filter((list) => list.id != itemIndex) //HOW TO GET LIST.INDEX
       state.shoppingList[itemIndex].title = newTitle
       state.edit = false
       newTitle = ''
@@ -93,7 +92,7 @@ export default createStore({
 
     ///// DELETE ITEM /////
     deleteListItem(state, itemPageIndex) {
-      var itemIndex = (state.limit * state.page) - (state.limit - itemPageIndex) // THE ITEM POSITION (INDEX) FETCHED DATA
+      var itemIndex = (state.limit * state.page) - (state.limit - itemPageIndex) // THE ITEM POSITION (INDEX) IN FETCHED DATA
       console.log(itemIndex)
       //state.shoppingList = state.shoppingList.filter((list) => list.id != itemIndex) //HOW TO GET LIST.INDEX
       var newList = []
