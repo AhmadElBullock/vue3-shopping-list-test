@@ -75,6 +75,32 @@ export default createStore({
         console.log('shoppingList.length :  ' + state.shoppingList.length, 'pages: ' + state.pages,state.shoppingList, )
       }
     },
+  
+    ///// SELECTING PAGE N. + FILLING PAGE DATA /////
+    selectPagedData(state, page) {
+      state.page = page
+      state.pageActive = page
+      state.pagedShoppingList = state.shoppingList.slice((page - 1) * state.limit, page * state.limit)
+    },
+
+    ///// NEXT ARROW (PAGINATION) /////
+    nPage(state) {
+        state.pagedShoppingList = state.shoppingList.slice(state.page * state.limit, (state.page + 1) * state.limit)
+        state.page++
+        state.pageActive = state.page
+    },
+
+    ///// PREVIOUS ARROW (PAGINATION) /////
+    pPage(state) {
+        if (state.page == 1) {
+          state.pagedShoppingList = state.shoppingList.slice(0, state.limit )
+        } else {
+          state.page--
+          state.pagedShoppingList = state.shoppingList.slice((state.page - 1) * state.limit, (state.page) * state.limit)
+          state.pageActive = state.page
+        }
+    },
+
     ///// SELECT EDIT ITEM /////
     selectEditListItem(state, itemPageIndex) {
       console.log(state.shoppingList[itemPageIndex])
@@ -102,37 +128,11 @@ export default createStore({
           newList.push(state.shoppingList[z])
         } 
       }
-     state.shoppingList = newList
-     state.pages = Math.ceil(state.shoppingList.length/state.limit)    //ROUND-UP
-     state.pagedShoppingList = state.shoppingList.slice(0, state.limit)
-     state.page = 1
-     state.pageActive = 1  //MUST FIGURE OUT A WAY TO SHOW DATA WITHOUT REDIRECT TO FIRST PAGE
+      state.shoppingList = newList
+      state.pages = Math.ceil(state.shoppingList.length/state.limit)    //ROUND-UP
+      state.pagedShoppingList = state.shoppingList.slice((state.page - 1) * state.limit, state.page * state.limit)
     },
 
-    ///// SELECTING PAGE N. + FILLING PAGE DATA /////
-    selectPagedData(state, page) {
-      state.page = page
-      state.pageActive = page
-      state.pagedShoppingList = state.shoppingList.slice((page - 1) * state.limit, page * state.limit)
-    },
-
-    ///// NEXT ARROW (PAGINATION) /////
-    nPage(state) {
-        state.pagedShoppingList = state.shoppingList.slice(state.page * state.limit, (state.page + 1) * state.limit)
-        state.page++
-        state.pageActive = state.page
-    },
-
-    ///// PREVIOUS ARROW (PAGINATION) /////
-    pPage(state) {
-        if (state.page == 1) {
-          state.pagedShoppingList = state.shoppingList.slice(0, state.limit )
-        } else {
-          state.page--
-          state.pagedShoppingList = state.shoppingList.slice((state.page - 1) * state.limit, (state.page) * state.limit)
-          state.pageActive = state.page
-        }
-    },
 
   },
 
