@@ -25,12 +25,8 @@
       </div>
 
     </div>
-    <!-- ----- END: ADD A SHOPPING LIST ITEM ----- -->
-<!-- <div v-if="$store.state.edit">
-    <input  type="text" v-model="newTitle" />
-    
-</div> -->
-      <table class="table table-striped">
+
+    <table class="table table-striped">
 
         <thead>
             <tr>
@@ -38,13 +34,12 @@
             <th scope="col">ID</th>
             <th scope="col">USER</th>
             <th scope="col">TITLE</th>
-            <!-- <th scope="col"></th> -->
             <th scope="col">COMPLETED</th>
             <th scope="col"></th>
             <th scope="col"></th>
-
             </tr>
         </thead>
+
         <tbody >  
             <tr v-for="(list, index) in this.$store.state.pagedShoppingList"
             :key="list.id"
@@ -58,9 +53,12 @@
                 <div @dblclick="selectEditListItem(index)" :class="[$store.state.edit ? 'hidden-text' : '']">
                     {{list.title}}
                 </div>
-                <div :class="[!$store.state.edit ? 'hidden-input' : '', 'edit-input']">
-                    <input type="text" v-model="list.title" @keyup.enter="editListItem(list.title)" @blur="editListItem(list.title)">
-                </div>
+                    <input :class="[!$store.state.edit ? 'hidden-input' : '', 'edit-input']"
+                    type="text"
+                    v-model="list.title"
+                    @keyup.enter="editListItem(list.title)"
+                    @blur="editListItem(list.title)"
+                    />
                 </td>
 
                 <td>{{list.completed}}</td>
@@ -134,7 +132,7 @@ export default {
       nPage() {
         this.$store.commit('nPage')
       }
-    }
+    },
 }
 </script>
 
@@ -157,16 +155,16 @@ export default {
 /* .edit {
   border-color: brown;
 } */
-.hidden-input input {
+.hidden-input {
   display: none
 }
 .hidden-text {
   display: none;
 }
-.edit-input input {
+.edit-input {
   width: 100%;
   text-align: center;
-  border: none;
+  border: 1px solid rgba(128, 128, 128, 0.322);
   background-color: transparent;
   color: red
 }
