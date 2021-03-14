@@ -26,10 +26,10 @@
 
     </div>
     <!-- ----- END: ADD A SHOPPING LIST ITEM ----- -->
-<div v-if="$store.state.edit">
+<!-- <div v-if="$store.state.edit">
     <input  type="text" v-model="newTitle" />
     <button class="btn btn-success" @click="editListItem(newTitle)">Done</button>
-</div>
+</div> -->
       <table class="table table-striped">
 
         <thead>
@@ -38,6 +38,7 @@
             <th scope="col">ID</th>
             <th scope="col">USER</th>
             <th scope="col">TITLE</th>
+            <th scope="col"></th>
             <th scope="col">COMPLETED</th>
             <th scope="col"></th>
             <th scope="col"></th>
@@ -47,15 +48,33 @@
         <tbody >  
             <tr v-for="(list, index) in this.$store.state.pagedShoppingList"
             :key="list.id"
-            :class="[list.completed ? 'completed' : '', $store.state.shoppingList[index] == $store.state.itemPageIndex ? 'edit' : '']">
-            <!-- <th scope="row">{{(($store.state.page - 1) * $store.state.limit) + index}}</th>  TO GET THE INDEX-->
-            <th scope="row">{{(($store.state.page - 1) * $store.state.limit) + index + 1}}</th>
-            <th scope="row">{{list.id}}</th>
-            <td>{{list.userId}}</td>
-            <td>{{list.title}}</td>
-            <td>{{list.completed}}</td>
-            <td><button class="btn btn-info" @click="selectEditListItem(index)">Edit</button></td>
-            <td><button class="btn btn-danger" @click="deleteListItem(index)">X</button></td>
+            >
+                <th scope="row">{{(($store.state.page - 1) * $store.state.limit) + index + 1}}</th>
+                <td scope="row">{{list.id}}</td>
+                <td>{{list.userId}}</td>
+
+                <td :class="[list.completed ? 'completed' : '']">
+                
+                <div @dblclick="selectEditListItem(index)" :class="[$store.state.edit ? 'hidden-text' : '']">
+                    {{list.title}}
+                </div>
+                <div :class="[!$store.state.edit ? 'hidden-input' : '', 'edit-input']">
+                    <input type="text" v-model="list.title">
+                </div>
+                </td>
+
+                <td :class="[!$store.state.edit ? 'hidden-text' : '']">
+                    <button class="btn btn-success" @click="editListItem(list.title)">
+                        Done
+                    </button>
+                </td>
+                <td>{{list.completed}}</td>
+                <td>
+                    <button class="btn btn-info" @click="selectEditListItem(index)">Edit</button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" @click="deleteListItem(index)">X</button>
+                </td>
             </tr>
         </tbody>
 
@@ -97,8 +116,8 @@ export default {
         this.$store.commit('addListItem', this.newItem)
         this.newItem = ''
       },
-      selectEditListItem(itemPageIndex) {
-        this.$store.commit('selectEditListItem', itemPageIndex)
+      selectEditListItem(itemIndex) {
+        this.$store.commit('selectEditListItem', itemIndex)
       },
       editListItem(itemPageIndex) {
         this.$store.commit('editListItem', itemPageIndex)
@@ -135,7 +154,20 @@ export default {
   text-decoration:line-through !important;
   color: rgb(151, 151, 151) !important
 }
-.edit {
+/* .edit {
   border-color: brown;
+} */
+.hidden-input input {
+  display: none
+}
+.hidden-text {
+  display: none;
+}
+.edit-input input {
+  width: 100%;
+  text-align: center;
+  border: none;
+  background-color: transparent;
+  color: red
 }
 </style>

@@ -3,11 +3,11 @@ import router from '../router/index'
 
 export default createStore({
   state: {
-    isAuthed: false,
+    isAuthed: true,
     logStatus: 'Login',
     user: '',
     edit: false,
-    itemPageIndex: null,
+    itemIndex: null,
 
     pages: null,    //TOTAL PAGES COUNT
     page: 1,          //THE SINGLE PAGE
@@ -102,16 +102,22 @@ export default createStore({
     },
 
     ///// SELECT EDIT ITEM /////
-    selectEditListItem(state, itemPageIndex) {
-      console.log(state.shoppingList[itemPageIndex])
-      state.itemPageIndex = itemPageIndex
-      state.edit = true
+    selectEditListItem(state, itemIndex) {
+      state.itemIndex = ((state.page - 1) * state.limit) + itemIndex
+      if (state.shoppingList[state.itemIndex].completed == false) {
+        console.log(state.itemIndex)
+        state.edit = true
+      } else {
+          return
+      }
+
     },
+
     ///// EDIT ITEM /////
     editListItem(state, newTitle) {
-      var itemIndex = (state.limit * state.page) - (state.limit - state.itemPageIndex) // THE ITEM POSITION (INDEX) IN FETCHED DATA
-      console.log(state.itemPageIndex)
-      state.shoppingList[itemIndex].title = newTitle
+      //var itemIndex = (state.limit * state.page) - (state.limit - state.itemPageIndex) // THE ITEM POSITION (INDEX) IN FETCHED DATA
+      //console.log(state.itemPageIndex)
+      state.shoppingList[state.itemIndex].title = newTitle
       state.edit = false
       newTitle = ''
     },
