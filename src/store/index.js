@@ -117,7 +117,7 @@ export default createStore({
 
     ///// EDIT ITEM /////
     editListItem(state, newTitle) {
-      if(String(newTitle) == '') {
+      if(newTitle == '') {
           alert("You didn' add a task")
           state.shoppingList[state.itemIndex].title = state.backupTitle     // BACKUP YOUR LAST TITLE
           state.edit = false

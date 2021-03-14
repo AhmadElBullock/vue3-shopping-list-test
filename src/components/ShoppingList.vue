@@ -59,19 +59,18 @@
                     {{list.title}}
                 </div>
                 <div :class="[!$store.state.edit ? 'hidden-input' : '', 'edit-input']">
-                    <input type="text" v-model="list.title">
+                    <input type="text" v-model="list.title" @keyup.enter="editListItem(list.title)" @blur="editListItem(list.title)">
                 </div>
                 </td>
 
-                <!-- <td :class="[!$store.state.edit ? 'hidden-text' : '']">
-                    <button class="btn btn-success" @click="editListItem(list.title)">
-                        Done
-                    </button>
-                </td> -->
                 <td>{{list.completed}}</td>
                 <td>
                     <button v-if="!$store.state.edit" class="btn btn-info" @click="selectEditListItem(index)">Edit</button>
-                    <button v-if="$store.state.edit" class="btn btn-success" @click="editListItem(list.title)">Done</button>
+                    <button
+                    v-if="$store.state.edit"
+                    class="btn btn-success"
+                    @click="editListItem(list.title)"
+                    >Done</button>
                 </td>
                 <td>
                     <button class="btn btn-danger" @click="deleteListItem(index)">X</button>
