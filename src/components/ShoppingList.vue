@@ -28,7 +28,7 @@
     <!-- ----- END: ADD A SHOPPING LIST ITEM ----- -->
 <!-- <div v-if="$store.state.edit">
     <input  type="text" v-model="newTitle" />
-    <button class="btn btn-success" @click="editListItem(newTitle)">Done</button>
+    
 </div> -->
       <table class="table table-striped">
 
@@ -38,7 +38,7 @@
             <th scope="col">ID</th>
             <th scope="col">USER</th>
             <th scope="col">TITLE</th>
-            <th scope="col"></th>
+            <!-- <th scope="col"></th> -->
             <th scope="col">COMPLETED</th>
             <th scope="col"></th>
             <th scope="col"></th>
@@ -63,14 +63,15 @@
                 </div>
                 </td>
 
-                <td :class="[!$store.state.edit ? 'hidden-text' : '']">
+                <!-- <td :class="[!$store.state.edit ? 'hidden-text' : '']">
                     <button class="btn btn-success" @click="editListItem(list.title)">
                         Done
                     </button>
-                </td>
+                </td> -->
                 <td>{{list.completed}}</td>
                 <td>
-                    <button class="btn btn-info" @click="selectEditListItem(index)">Edit</button>
+                    <button v-if="!$store.state.edit" class="btn btn-info" @click="selectEditListItem(index)">Edit</button>
+                    <button v-if="$store.state.edit" class="btn btn-success" @click="editListItem(list.title)">Done</button>
                 </td>
                 <td>
                     <button class="btn btn-danger" @click="deleteListItem(index)">X</button>

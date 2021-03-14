@@ -6,8 +6,10 @@ export default createStore({
     isAuthed: true,
     logStatus: 'Login',
     user: '',
-    edit: false,
     itemIndex: null,
+
+    edit: false,
+    backupTitle: '',
 
     pages: null,    //TOTAL PAGES COUNT
     page: 1,          //THE SINGLE PAGE
@@ -103,23 +105,27 @@ export default createStore({
 
     ///// SELECT EDIT ITEM /////
     selectEditListItem(state, itemIndex) {
-      state.itemIndex = ((state.page - 1) * state.limit) + itemIndex
+      state.itemIndex = ((state.page - 1) * state.limit) + itemIndex  // SELECTING ITEM INDEX IN shoppingList ARRAY
       if (state.shoppingList[state.itemIndex].completed == false) {
-        console.log(state.itemIndex)
+        console.log(state.itemIndex) //d
+        console.log(state.shoppingList[state.itemIndex]) //d
+        state.backupTitle = state.shoppingList[state.itemIndex].title
+        console.log(state.backupTitle)
         state.edit = true
-      } else {
-          return
-      }
-
+      } else { return }
     },
 
     ///// EDIT ITEM /////
     editListItem(state, newTitle) {
-      //var itemIndex = (state.limit * state.page) - (state.limit - state.itemPageIndex) // THE ITEM POSITION (INDEX) IN FETCHED DATA
-      //console.log(state.itemPageIndex)
-      state.shoppingList[state.itemIndex].title = newTitle
-      state.edit = false
-      newTitle = ''
+      if(String(newTitle) == '') {
+          alert("You didn' add a task")
+          state.shoppingList[state.itemIndex].title = state.backupTitle     // BACKUP YOUR LAST TITLE
+          state.edit = false
+      } else {
+        state.shoppingList[state.itemIndex].title = newTitle
+        state.edit = false
+      }
+
     },
 
     ///// DELETE ITEM /////
