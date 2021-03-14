@@ -35,6 +35,7 @@
         <thead>
             <tr>
             <th scope="col">#</th>
+            <th scope="col">ID</th>
             <th scope="col">USER</th>
             <th scope="col">TITLE</th>
             <th scope="col">COMPLETED</th>
@@ -47,6 +48,8 @@
             <tr v-for="(list, index) in this.$store.state.pagedShoppingList"
             :key="list.id"
             :class="[list.completed ? 'completed' : '', $store.state.shoppingList[index] == $store.state.itemPageIndex ? 'edit' : '']">
+            <!-- <th scope="row">{{(($store.state.page - 1) * $store.state.limit) + index}}</th>  TO GET THE INDEX-->
+            <th scope="row">{{(($store.state.page - 1) * $store.state.limit) + index + 1}}</th>
             <th scope="row">{{list.id}}</th>
             <td>{{list.userId}}</td>
             <td>{{list.title}}</td>
