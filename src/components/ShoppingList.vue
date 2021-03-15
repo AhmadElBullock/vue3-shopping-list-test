@@ -53,27 +53,35 @@
                 <td scope="row">{{list.id}}</td>
                 <!-- USER ID -->
                 <td>{{list.userId}}</td>
-                <!-- TITLE & HIDDEN INPUT TITLE-->
+
+                <!-- TITLE & HIDDEN INPUT TITLE -->
                 <td :class="[list.completed ? 'completed' : '']">
-                    <div @dblclick="selectEditListItem(index)" :class="[$store.state.edit ? 'hidden-text' : '']">
+                    <div @dblclick="selectEditListItem(index)"
+                    :class="[((($store.state.page - 1) * $store.state.limit) + index) != $store.state.itemIndex ? '' : 'hidden-text']"
+                    >
                         {{list.title}}
                     </div>
-                    <input :class="[!$store.state.edit ? 'hidden-input' : '', 'edit-input']"
-                    type="text"
+                    <input 
+                    type="text" class="edit-input"
+                    :class="[((($store.state.page - 1) * $store.state.limit) + index) == $store.state.itemIndex ? '' : 'hidden-input', 'edit-input']"
                     v-model="list.title"
                     @keyup.enter="editListItem(list.title)"
                     @blur="editListItem(list.title)"
                     />
-                </td>
+                </td> 
+
                 <!-- STATUS -->
                 <td>{{list.completed}}</td>
                 <!-- EDIT BUTTON  -->
                 <td>
-                    <button v-if="!$store.state.edit" class="btn btn-info" @click="selectEditListItem(index)">
+                    <button v-if="((($store.state.page - 1) * $store.state.limit) + index) != $store.state.itemIndex && !$store.state.shoppingList[((($store.state.page - 1) * $store.state.limit) + index)].completed"
+
+                    class="btn btn-info" @click="selectEditListItem(index)"
+                    >
                       Edit
                     </button>
                     <button
-                    v-if="$store.state.edit"
+                    v-if="((($store.state.page - 1) * $store.state.limit) + index) == $store.state.itemIndex"
                     class="btn btn-success"
                     @click="editListItem(list.title)"
                     >Done</button>
@@ -130,11 +138,11 @@ export default {
       selectEditListItem(itemIndex) {
         this.$store.commit('selectEditListItem', itemIndex)
       },
-      editListItem(itemPageIndex) {
-        this.$store.commit('editListItem', itemPageIndex)
+      editListItem(itemIndex) {
+        this.$store.commit('editListItem', itemIndex)
       },
-      deleteListItem(itemPageIndex) {
-        this.$store.commit('deleteListItem', itemPageIndex)
+      deleteListItem(itemIndex) {
+        this.$store.commit('deleteListItem', itemIndex)
       },
       selectPagedData(page) {
         this.$store.commit('selectPagedData', page)
@@ -150,6 +158,9 @@ export default {
 </script>
 
 <style>
+.black {
+  background-color: rgba(0, 0, 0, 0.39) !important;
+}
 .page-link {
   color: black
 }
@@ -171,11 +182,16 @@ export default {
 .hidden-text {
   display: none;
 }
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
 .edit-input {
   width: 100%;
   text-align: center;
   border: 1px solid rgba(128, 128, 128, 0.322);
-  color: red;
   background-color: transparent;
 }
 </style>

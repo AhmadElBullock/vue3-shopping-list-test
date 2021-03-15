@@ -8,7 +8,7 @@ export default createStore({
     user: '',
     itemIndex: null,
 
-    edit: false,
+    //edit: false,
     backupTitle: '',
 
     pages: null,    //TOTAL PAGES COUNT
@@ -106,13 +106,15 @@ export default createStore({
     ///// SELECT EDIT ITEM /////
     selectEditListItem(state, itemIndex) {
       state.itemIndex = ((state.page - 1) * state.limit) + itemIndex  // SELECTING ITEM INDEX IN shoppingList ARRAY
+      console.log(state.itemIndex)
       if (state.shoppingList[state.itemIndex].completed == false) {
-        console.log(state.itemIndex) //d
-        console.log(state.shoppingList[state.itemIndex]) //d
         state.backupTitle = state.shoppingList[state.itemIndex].title
-        console.log(state.backupTitle)
-        state.edit = true
-      } else { return }
+        //state.edit = true
+      } else { 
+        //state.edit = false
+        state.itemIndex = null
+        return
+       }
     },
 
     ///// EDIT ITEM /////
@@ -120,10 +122,12 @@ export default createStore({
       if(newTitle == '') {
           alert("You didn' add a task")
           state.shoppingList[state.itemIndex].title = state.backupTitle     // BACKUP YOUR LAST TITLE
-          state.edit = false
+          //state.edit = false
+          state.itemIndex = null
       } else {
         state.shoppingList[state.itemIndex].title = newTitle
-        state.edit = false
+       // state.edit = false
+        state.itemIndex = null
       }
 
     },
@@ -145,6 +149,7 @@ export default createStore({
         state.shoppingList = newList
         state.pages = Math.ceil(state.shoppingList.length/state.limit)    //ROUND-UP
         state.pagedShoppingList = state.shoppingList.slice((state.page - 1) * state.limit, state.page * state.limit)
+        state.itemIndex = null
       }
     },
 
