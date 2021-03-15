@@ -5,7 +5,7 @@
           <div class="col-md-6">
               <h1>Shopping List App</h1>
               <p>Please enter your username and password</p>
-              <button class="btn btn-outline-success" @click="back">Back</button>
+              <button class="btn btn-outline-success bg" @click="back">Back</button>
           </div>
 
           <div class="col-md-6">
@@ -20,8 +20,9 @@
                 </div>
                     <button @click="onSubmit" type="button" class="btn btn-success">Submit</button>
             </form>
+            <button class="btn btn-outline-success mt-5 sm" @click="back">Back</button>
           </div>
-
+            
       </div>
   </div>
 </template>
@@ -60,14 +61,30 @@ export default {
             this.$router.push({path: '/'})
         },
     },
+    mounted() {
+        console.log('username: [admin, zahlan, ghandor, ahmad]')
+        console.log('password: admin')
+        console.log('Try different names to see different results!')
+    }
 }
 </script>
 
 <style scoped>
+    @media (min-width: 768px) {
+        .sm {
+            display: none;
+        }
+        .bg {
+            display: block !important;
+        }
+    }
      h1 {
-        color: rgb(32 143 123) !important
+        color: rgb(32 143 123) !important;
     }
     .row {
         margin-top: 6rem
+    }
+    .bg {
+        display: none;
     }
 </style>

@@ -3,15 +3,14 @@ import router from '../router/index'
 
 export default createStore({
   state: {
-    isAuthed: true,
+    isAuthed: false,
     logStatus: 'Login',
     user: '',
     itemIndex: null,
 
-    //edit: false,
-    backupTitle: '',
+    backupTitle: '',  //BACKUP TITLE BEFORE EDITING
 
-    pages: null,    //TOTAL PAGES COUNT
+    pages: null,      //TOTAL PAGES COUNT
     page: 1,          //THE SINGLE PAGE
     limit: 10,        //SINGLE PAGE SIZE (LIMIT OF DATA TO DISPLAY IN A SINGLE PAGE)
 
@@ -44,7 +43,6 @@ export default createStore({
         router.push('/')
         state.logStatus = 'Logout'
         console.log('You are logged in!')
-        
       } else {return}
     },
 
@@ -103,15 +101,18 @@ export default createStore({
         }
     },
 
+    ///// TOGGLE STATUS /////
+    changeStatus(state, itemIndex) {
+      state.shoppingList[((state.page - 1) * state.limit) + itemIndex].completed =
+       !state.shoppingList[((state.page - 1) * state.limit) + itemIndex].completed
+    },
+
     ///// SELECT EDIT ITEM /////
     selectEditListItem(state, itemIndex) {
       state.itemIndex = ((state.page - 1) * state.limit) + itemIndex  // SELECTING ITEM INDEX IN shoppingList ARRAY
-      console.log(state.itemIndex)
       if (state.shoppingList[state.itemIndex].completed == false) {
         state.backupTitle = state.shoppingList[state.itemIndex].title
-        //state.edit = true
       } else { 
-        //state.edit = false
         state.itemIndex = null
         return
        }
@@ -122,19 +123,15 @@ export default createStore({
       if(newTitle == '') {
           alert("You didn' add a task")
           state.shoppingList[state.itemIndex].title = state.backupTitle     // BACKUP YOUR LAST TITLE
-          //state.edit = false
           state.itemIndex = null
       } else {
-        state.shoppingList[state.itemIndex].title = newTitle
-       // state.edit = false
-        state.itemIndex = null
+          state.shoppingList[state.itemIndex].title = newTitle
+          state.itemIndex = null
       }
-
     },
 
     ///// DELETE ITEM /////
     deleteListItem(state, itemIndex) {
-      //var itemIndex = (state.limit * state.page) - (state.limit - itemPageIndex) // THE ITEM POSITION (INDEX) IN FETCHED DATA
       if(confirm('Are you sure ?')) {
         state.itemIndex = ((state.page - 1) * state.limit) + itemIndex
         console.log(state.itemIndex)
@@ -152,8 +149,6 @@ export default createStore({
         state.itemIndex = null
       }
     },
-
-
   },
 
   actions: {

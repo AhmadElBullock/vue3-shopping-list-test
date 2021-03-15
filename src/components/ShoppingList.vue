@@ -25,7 +25,7 @@
       </div>
 
     </div>
-    <!-- ----- END: ADD A SHOPPING LIST ITEM ----- -->
+    <!-- --- END: ADD A SHOPPING LIST ITEM --- -->
 
     <!-- ----- TABLE  ----- -->
     <table class="table table-striped">
@@ -54,16 +54,16 @@
                 <!-- USER ID -->
                 <td>{{list.userId}}</td>
 
-                <!-- TITLE & HIDDEN INPUT TITLE -->
-                <td :class="[list.completed ? 'completed' : '']">
+                <!-- TITLE / HIDDEN INPUT TITLE -->
+                <td :class="[list.completed ? 'completed' : '', 'text-start']">
                     <div @dblclick="selectEditListItem(index)"
-                    :class="[((($store.state.page - 1) * $store.state.limit) + index) != $store.state.itemIndex ? '' : 'hidden-text']"
+                    :class="[((($store.state.page - 1) * $store.state.limit) + index) != $store.state.itemIndex ? '' : 'hide']"
                     >
                         {{list.title}}
                     </div>
                     <input 
-                    type="text" class="edit-input"
-                    :class="[((($store.state.page - 1) * $store.state.limit) + index) == $store.state.itemIndex ? '' : 'hidden-input', 'edit-input']"
+                    type="text" class="edit-input text-start test"
+                    :class="[((($store.state.page - 1) * $store.state.limit) + index) == $store.state.itemIndex ? '' : 'hide', 'edit-input']"
                     v-model="list.title"
                     @keyup.enter="editListItem(list.title)"
                     @blur="editListItem(list.title)"
@@ -71,20 +71,30 @@
                 </td> 
 
                 <!-- STATUS -->
-                <td>{{list.completed}}</td>
-                <!-- EDIT BUTTON  -->
                 <td>
-                    <button v-if="((($store.state.page - 1) * $store.state.limit) + index) != $store.state.itemIndex && !$store.state.shoppingList[((($store.state.page - 1) * $store.state.limit) + index)].completed"
-
-                    class="btn btn-info" @click="selectEditListItem(index)"
+                  <button
+                  :class="[list.completed ? 'btn-success' : 'btn-secondary', 'btn']"
+                  @click="changeStatus(index)"
+                  >
+                    {{list.completed}}
+                  </button>
+                </td>
+                <!-- EDIT / DONE BUTTON  -->
+                <td>
+                    <button v-if="((($store.state.page - 1) * $store.state.limit) + index) !=
+                    $store.state.itemIndex &&
+                    !$store.state.shoppingList[((($store.state.page - 1) * $store.state.limit) + index)].completed"
+                    class="btn btn-info no-padding" @click="selectEditListItem(index)"
                     >
                       Edit
                     </button>
                     <button
                     v-if="((($store.state.page - 1) * $store.state.limit) + index) == $store.state.itemIndex"
-                    class="btn btn-success"
+                    class="btn btn-success no-padding"
                     @click="editListItem(list.title)"
-                    >Done</button>
+                    >
+                      Done
+                    </button>
                 </td>
                 <!-- DELETE BUTTON -->
                 <td>
@@ -94,7 +104,7 @@
         </tbody>
 
     </table>
-    <!-- ----- END: TABLE  ----- -->
+    <!-- --- END: TABLE  --- -->
 
     <!-- ----- PAGINATION ----- -->
     <nav aria-label="Page navigation example">
@@ -109,7 +119,7 @@
         <li class="page-item"
         v-for="page in $store.state.pages"
         :key="page"
-        v-show="!(page >= $store.state.pageActive + 3) && !(page <= $store.state.pageActive - 3)"
+        v-show="!(page >= $store.state.pageActive + 5) && !(page <= $store.state.pageActive - 5)"
         @click="selectPagedData(page)"
         >
             <a class="page-link" :class="$store.state.pageActive == page && 'isActive' ">
@@ -124,7 +134,7 @@
         </li>
       </ul>
     </nav>
-    <!-- END PAGINATION -->
+    <!-- --- END PAGINATION---  -->
   </div>
 </template>
 
@@ -144,6 +154,9 @@ export default {
       deleteListItem(itemIndex) {
         this.$store.commit('deleteListItem', itemIndex)
       },
+      changeStatus(itemIndex) {
+      this.$store.commit('changeStatus', itemIndex)
+      },
       selectPagedData(page) {
         this.$store.commit('selectPagedData', page)
       },
@@ -152,15 +165,12 @@ export default {
       },
       nPage() {
         this.$store.commit('nPage')
-      }
+      },
     },
 }
 </script>
 
 <style>
-.black {
-  background-color: rgba(0, 0, 0, 0.39) !important;
-}
 .page-link {
   color: black
 }
@@ -176,12 +186,6 @@ export default {
   text-decoration:line-through !important;
   color: rgb(151, 151, 151) !important
 }
-.hidden-input {
-  display: none;
-}
-.hidden-text {
-  display: none;
-}
 .hide {
   display: none;
 }
@@ -193,5 +197,11 @@ export default {
   text-align: center;
   border: 1px solid rgba(128, 128, 128, 0.322);
   background-color: transparent;
+}
+tbody .btn {
+  padding: .12rem .75rem
+}
+.btn-info {
+  background-color: #afedfa;
 }
 </style>
