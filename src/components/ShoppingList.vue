@@ -25,9 +25,11 @@
       </div>
 
     </div>
+    <!-- ----- END: ADD A SHOPPING LIST ITEM ----- -->
 
+    <!-- ----- TABLE  ----- -->
     <table class="table table-striped">
-
+        <!-- ----- TABLE HEADER ----- -->
         <thead>
             <tr>
             <th scope="col">#</th>
@@ -40,19 +42,22 @@
             </tr>
         </thead>
 
+        <!-- ----- TABLE BODY ----- -->
         <tbody >  
             <tr v-for="(list, index) in this.$store.state.pagedShoppingList"
             :key="list.id"
             >
+                <!-- INDEX -->
                 <th scope="row">{{(($store.state.page - 1) * $store.state.limit) + index + 1}}</th>
+                <!-- ID -->
                 <td scope="row">{{list.id}}</td>
+                <!-- USER ID -->
                 <td>{{list.userId}}</td>
-
+                <!-- TITLE & HIDDEN INPUT TITLE-->
                 <td :class="[list.completed ? 'completed' : '']">
-                
-                <div @dblclick="selectEditListItem(index)" :class="[$store.state.edit ? 'hidden-text' : '']">
-                    {{list.title}}
-                </div>
+                    <div @dblclick="selectEditListItem(index)" :class="[$store.state.edit ? 'hidden-text' : '']">
+                        {{list.title}}
+                    </div>
                     <input :class="[!$store.state.edit ? 'hidden-input' : '', 'edit-input']"
                     type="text"
                     v-model="list.title"
@@ -60,16 +65,20 @@
                     @blur="editListItem(list.title)"
                     />
                 </td>
-
+                <!-- STATUS -->
                 <td>{{list.completed}}</td>
+                <!-- EDIT BUTTON  -->
                 <td>
-                    <button v-if="!$store.state.edit" class="btn btn-info" @click="selectEditListItem(index)">Edit</button>
+                    <button v-if="!$store.state.edit" class="btn btn-info" @click="selectEditListItem(index)">
+                      Edit
+                    </button>
                     <button
                     v-if="$store.state.edit"
                     class="btn btn-success"
                     @click="editListItem(list.title)"
                     >Done</button>
                 </td>
+                <!-- DELETE BUTTON -->
                 <td>
                     <button class="btn btn-danger" @click="deleteListItem(index)">X</button>
                 </td>
@@ -77,33 +86,37 @@
         </tbody>
 
     </table>
+    <!-- ----- END: TABLE  ----- -->
 
+    <!-- ----- PAGINATION ----- -->
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
+        <!-- << ARROW -->
         <li v-show="$store.state.page > 1" class="page-item" @click="pPage">
           <a class="page-link" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-
+        <!-- PAGE -->
         <li class="page-item"
         v-for="page in $store.state.pages"
         :key="page"
+        v-show="!(page >= $store.state.pageActive + 3) && !(page <= $store.state.pageActive - 3)"
         @click="selectPagedData(page)"
         >
-          <a class="page-link" :class="$store.state.pageActive == page && 'isActive' ">
-            {{page}}
+            <a class="page-link" :class="$store.state.pageActive == page && 'isActive' ">
+              {{page}}
             </a>
         </li>
-
-          <li v-show="$store.state.page < $store.state.pages" class="page-item" @click="nPage" >
-            <a class="page-link" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-
+        <!-- >> ARROW -->
+        <li v-show="$store.state.page < $store.state.pages" class="page-item" @click="nPage" >
+          <a class="page-link" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- END PAGINATION -->
   </div>
 </template>
 
@@ -152,11 +165,8 @@ export default {
   text-decoration:line-through !important;
   color: rgb(151, 151, 151) !important
 }
-/* .edit {
-  border-color: brown;
-} */
 .hidden-input {
-  display: none
+  display: none;
 }
 .hidden-text {
   display: none;
@@ -165,7 +175,7 @@ export default {
   width: 100%;
   text-align: center;
   border: 1px solid rgba(128, 128, 128, 0.322);
+  color: red;
   background-color: transparent;
-  color: red
 }
 </style>

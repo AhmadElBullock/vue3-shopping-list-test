@@ -129,20 +129,23 @@ export default createStore({
     },
 
     ///// DELETE ITEM /////
-    deleteListItem(state, itemPageIndex) {
-      var itemIndex = (state.limit * state.page) - (state.limit - itemPageIndex) // THE ITEM POSITION (INDEX) IN FETCHED DATA
-      console.log(itemIndex)
-      //state.shoppingList = state.shoppingList.filter((list) => list.id != itemIndex) //HOW TO GET LIST.INDEX
-      var newList = []
-      var z = 0
-      for(z = 0; z < state.shoppingList.length; z++) {
-        if(state.shoppingList[itemIndex] != state.shoppingList[z]) {
-          newList.push(state.shoppingList[z])
-        } 
+    deleteListItem(state, itemIndex) {
+      //var itemIndex = (state.limit * state.page) - (state.limit - itemPageIndex) // THE ITEM POSITION (INDEX) IN FETCHED DATA
+      if(confirm('Are you sure ?')) {
+        state.itemIndex = ((state.page - 1) * state.limit) + itemIndex
+        console.log(state.itemIndex)
+        //state.shoppingList = state.shoppingList.filter((list) => list.id != itemIndex) //HOW TO GET LIST.INDEX??
+        var newList = []
+        var z = 0
+        for(z = 0; z < state.shoppingList.length; z++) {
+          if(state.shoppingList[itemIndex] != state.shoppingList[z]) {
+            newList.push(state.shoppingList[z])
+          } 
+        }
+        state.shoppingList = newList
+        state.pages = Math.ceil(state.shoppingList.length/state.limit)    //ROUND-UP
+        state.pagedShoppingList = state.shoppingList.slice((state.page - 1) * state.limit, state.page * state.limit)
       }
-      state.shoppingList = newList
-      state.pages = Math.ceil(state.shoppingList.length/state.limit)    //ROUND-UP
-      state.pagedShoppingList = state.shoppingList.slice((state.page - 1) * state.limit, state.page * state.limit)
     },
 
 
