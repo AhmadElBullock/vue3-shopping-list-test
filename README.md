@@ -1,19 +1,18 @@
-…or create a new repository on the command line
-echo "# vue-3-shopping-list" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/AhmadElBullock/vue-3-shopping-list.git
-git push -u origin main
-…or push an existing repository from the command line
-git remote add origin https://github.com/AhmadElBullock/vue-3-shopping-list.git
-git branch -M main
-git push -u origin main
+# Vue Shopping List Test App
 
-# 1. How to pass [props] through <router-link>
+### Two routes:
+	Welcome page & introduction. (/)
+	Shopping list app (/app)
 
-add item -- be at first
-edit item
-delete item
+###  Can’t be accessed without auth.
+	In localstorage (isAuthed) if true
+	If false redirect home
 
+### Shopping list route (/app)
+	Will redirect by default to app/me
+	/app/me
+  	/app/wife
+
+### Shopping list 
+	https://jsonplaceholder.typicode.com/todos
+  
